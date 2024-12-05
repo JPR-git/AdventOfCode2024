@@ -7,7 +7,7 @@
 import Foundation
 import System
 
-let fileURL = FileManager.default.homeDirectoryForCurrentUser.appending(path: "source/aoc2024/Day_4/AoC2024_input.4")
+let fileURL = FileManager.default.homeDirectoryForCurrentUser.appending(path: "source/AdventOfCode2024/Day_4/AoC2024_input.4")
 
 for try await line in fileURL.lines {
     if line.isEmpty {
