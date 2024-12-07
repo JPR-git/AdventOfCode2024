@@ -34,4 +34,47 @@ for try await line in fileURL2.lines {
 }
 let _ = print("Pages #: " + String(pages.count))
 
+var middle: Int = 0
+var middle2: Int = 0
+var valid: Bool? = nil
+var exchange: [[Int]] = []
+pages.forEach({ line in
+    valid = nil
+    exchange = []
+    rules.forEach({rule in
+        if line.contains(rule[0]) {
+            let i1:Int = line.firstIndex(of: rule[0]) ?? -1
+            let i2:Int = line.firstIndex(of: rule[1]) ?? -1
+            
+            if i1 == i2 || i1 == -1 || i2 == -1 {
+                return
+            }
+            
+            if(i1  < i2) {
+                if valid == nil {
+                    valid = true
+                }
+            }
+            
+            if(i1  > i2) {
+                exchange.append([i1,i2])
+                valid = false
+            }
+        }
+    })
+    
+    if valid ?? false {
+        middle += line[Int((line.count-1)/2)]
+    } else if valid != nil {
+        var line2 = line
+        exchange.forEach({ touple in
+            let t = line2[touple[0]]
+            line2[touple[0]] = line2[touple[1]]
+            line2[touple[1]] = t
+        })
+        middle2 += line2[Int((line2.count-1)/2)]
+    }
+})
+let _ = print("Middle sum #: " + String(middle))
+let _ = print("Middle fixed sum #: " + String(middle2))
 
