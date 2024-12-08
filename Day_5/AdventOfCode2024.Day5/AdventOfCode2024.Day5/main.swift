@@ -35,19 +35,20 @@ for try await line in fileURL2.lines {
 let _ = print("Pages #: " + String(pages.count))
 
 var middle: Int = 0
-var middle2: Int = 0
+
 var valid: Bool? = nil
-var exchange: [[Int]] = []
-pages.forEach({ line in
+var invalidRowIndex: [Int] = []
+for (pageIndex, line) in pages.enumerated()
+{
     valid = nil
-    exchange = []
-    rules.forEach({rule in
+    for (_, rule) in rules.enumerated()
+    {
         if line.contains(rule[0]) {
             let i1:Int = line.firstIndex(of: rule[0]) ?? -1
             let i2:Int = line.firstIndex(of: rule[1]) ?? -1
             
             if i1 == i2 || i1 == -1 || i2 == -1 {
-                return
+                continue
             }
             
             if(i1  < i2) {
@@ -57,24 +58,51 @@ pages.forEach({ line in
             }
             
             if(i1  > i2) {
-                exchange.append([i1,i2])
+                if !(invalidRowIndex.count > 0 && invalidRowIndex[invalidRowIndex.count-1] == pageIndex) {
+                    invalidRowIndex.append(pageIndex)
+                }
                 valid = false
             }
         }
-    })
+    }
     
     if valid ?? false {
         middle += line[Int((line.count-1)/2)]
-    } else if valid != nil {
-        var line2 = line
-        exchange.forEach({ touple in
-            let t = line2[touple[0]]
-            line2[touple[0]] = line2[touple[1]]
-            line2[touple[1]] = t
-        })
-        middle2 += line2[Int((line2.count-1)/2)]
     }
-})
+}
 let _ = print("Middle sum #: " + String(middle))
-let _ = print("Middle fixed sum #: " + String(middle2))
 
+let _ = print("Invalid rows #: " + String(invalidRowIndex.count))
+var middle2: Int = 0
+invalidRowIndex.forEach({ index in
+    //let _ = print("Processing: " + String(index))
+    var pageLine = pages[index]
+    var valid: Bool = true
+    repeat {
+        valid = true
+        for (_, rule) in rules.enumerated()
+        {
+            if pageLine.contains(rule[0]) {
+                let i1:Int = pageLine.firstIndex(of: rule[0]) ?? -1
+                let i2:Int = pageLine.firstIndex(of: rule[1]) ?? -1
+                
+                if i1 == i2 || i1 == -1 || i2 == -1 {
+                    continue
+                }
+                
+                if(i1  > i2) {
+                    //let _ = print("    Fixing rule: " + String(rindex))
+                    let t = pageLine[i1]
+                    pageLine[i1] = pageLine[i2]
+                    pageLine[i2] = t
+                    //print(pageLine)
+                    valid = false
+                    break
+                }
+            }
+        }
+    } while(!valid)
+    
+    middle2 += pageLine[Int((pageLine.count-1)/2)]
+})
+let _ = print("Middle sum #: " + String(middle2))
