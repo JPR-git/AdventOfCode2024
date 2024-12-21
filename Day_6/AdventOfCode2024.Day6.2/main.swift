@@ -78,7 +78,14 @@ func MoveSouth(_ position: [Int]) -> [Int] { [position[0]+1,position[1], positio
 func MoveWest(_ position: [Int]) -> [Int] { [position[0],position[1]-1, position[2]] }
 func TurnRight(_ position: [Int]) -> [Int] { [position[0],position[1], (position[2] == 12) ? 3 : (position[2] == 3) ? 6 : (position[2] == 6) ? 9 : 12] }
 func MarkPosition(_ position: [Int]) -> [Int] {
-    room[position[0]][position[1]] = "X"
+    var mark: Character = "X"
+    
+    if position[2] == 12 { mark = "^" }
+    if position[2] == 3 { mark = ">" }
+    if position[2] == 6 { mark = "v" }
+    if position[2] == 9 { mark = "<" }
+    
+    room[position[0]][position[1]] = mark
     return position
 }
 
