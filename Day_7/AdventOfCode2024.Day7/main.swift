@@ -24,3 +24,32 @@ for try await line in fileURL.lines {
 }
 print("Equation #: "+String(equationList.count))
 
+var result: Int = 0
+for (_, equation) in equationList.enumerated()  {
+    
+    //var sum: Int = 0
+    
+    var starCount: Int = 0 // number of * from the left; the rest is +
+    repeat{
+        var tempSum: Int = (starCount>0) ? 1 : 0
+        
+        var tempStar: Int = starCount
+        
+        for number in equation[1...] {
+            if(tempStar > 0) {
+                tempSum *= number
+                tempStar -= 1
+            } else {
+                
+                tempSum += number
+            }
+        }
+        if(tempSum == equation[0]) {
+            result += tempSum
+            break;
+        }
+        
+        starCount += 1
+    } while(starCount < equation.count-2)
+}
+print("Sum: " + String(result))
