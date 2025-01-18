@@ -19,21 +19,25 @@ func SearchPairsOf(_ positionX: Int, _ positionY: Int, _ value: Character) -> [(
                             let difX = lineIndex2 - lineIndex
 
                             // point alpha ... cell2
-                            let alphaX = lineIndex2 + difX
-                            let alphaY = columnIndex2 + difY
-                            if alphaX >= 0 && alphaX < room.count &&
-                                alphaY >= 0 && alphaY < line.count
+                            var alphaX = lineIndex2 + difX
+                            var alphaY = columnIndex2 + difY
+                            while(alphaX >= 0 && alphaX < room.count &&
+                                    alphaY >= 0 && alphaY < room[alphaX].count)
                             {
                                 result.append((alphaX, alphaY))
+                                alphaX = alphaX + difX
+                                alphaY = alphaY + difY
                             }
 
                             // point beta ... cell
-                            let betaX = lineIndex - difX
-                            let betaY = columnIndex - difY
-                            if betaX >= 0 && betaX < room.count &&
-                                betaY >= 0 && betaY < line.count
+                            var betaX = lineIndex - difX
+                            var betaY = columnIndex - difY
+                            while(betaX >= 0 && betaX < room.count &&
+                                betaY >= 0 && betaY < room[betaX].count)
                             {
                                 result.append((betaX, betaY))
+                                betaX = betaX - difX
+                                betaY = betaY - difY
                             }
                         }
                     }
@@ -47,6 +51,8 @@ func SearchPairsOf(_ positionX: Int, _ positionY: Int, _ value: Character) -> [(
 // MAIN
 let fileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
     path: "source/AdventOfCode2024/Day_8/AoC2024_input.8")
+let outputURL = FileManager.default.homeDirectoryForCurrentUser.appending(
+    path: "source/AdventOfCode2024/Day_8/AoC2024_output.8")
 
 for try await line in fileURL.lines {
     if line.isEmpty {
@@ -82,10 +88,26 @@ for (lineIndex, line) in room.enumerated() {
 // evaluate
 var sum: Int = 0
 shadowRoom.forEach({ line in
-    line.forEach({
-        if $0 == "#" {
+    line.forEach({ cell in
+        if cell != "." {
             sum += 1
         }
     })
 })
 print(sum)
+
+// save to file
+do {
+    var builder = ""
+    shadowRoom.forEach({ line in
+        line.forEach( { cell in
+            builder += String(cell)
+        })
+        builder += String("\n")
+    })
+    try builder.write(toFile: outputURL.path, atomically: true, encoding: .ascii)
+} catch let error {
+    // handle error
+    print("Error on writing strings to file: \(error)")
+}
+
