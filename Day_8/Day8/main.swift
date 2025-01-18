@@ -15,6 +15,8 @@ func SearchPairsOf(_ positionX: Int, _ positionY: Int, _ value: Character) -> [(
                         if cell == cell2 && lineIndex != lineIndex2
                             && columnIndex != columnIndex2
                         {
+                            var foundHarmonicFrequency: Bool = false
+                            
                             let difY = columnIndex2 - columnIndex
                             let difX = lineIndex2 - lineIndex
 
@@ -25,6 +27,7 @@ func SearchPairsOf(_ positionX: Int, _ positionY: Int, _ value: Character) -> [(
                                     alphaY >= 0 && alphaY < room[alphaX].count)
                             {
                                 result.append((alphaX, alphaY))
+                                foundHarmonicFrequency = true
                                 alphaX = alphaX + difX
                                 alphaY = alphaY + difY
                             }
@@ -36,9 +39,16 @@ func SearchPairsOf(_ positionX: Int, _ positionY: Int, _ value: Character) -> [(
                                 betaY >= 0 && betaY < room[betaX].count)
                             {
                                 result.append((betaX, betaY))
+                                foundHarmonicFrequency = true
                                 betaX = betaX - difX
                                 betaY = betaY - difY
                             }
+                            
+                            // I think this is a bug
+                            //if foundHarmonicFrequency {
+                                result.append((lineIndex, columnIndex))
+                                result.append((lineIndex2, columnIndex2))
+                            
                         }
                     }
                 }
