@@ -1,10 +1,17 @@
 import Foundation
 import System
 
+
 // MAIN
+let outputURL = FileManager.default.homeDirectoryForCurrentUser.appending(
+    path: "source/AdventOfCode2024/Day_9/AoC2024_array.9")
+let finalOutputURL = FileManager.default.homeDirectoryForCurrentUser.appending(
+    path: "source/AdventOfCode2024/Day_9/AoC2024_final.9")
+
+
 var diskMap: [Int] = []
 let fileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
-    path: "source/AdventOfCode2024/Day_9/AoC2024_input.9")
+    path: "source/AdventOfCode2024/Day_9/AoC2024_sample.9")
 let input: String = try String(contentsOf: fileURL, encoding: .ascii).trimmingCharacters(in: .whitespacesAndNewlines)
 print("Line length: " + String(input.count))
 
@@ -23,6 +30,23 @@ for index in stride(from: 0, through: input.count, by: 2) {
 }
 print("diskMap length: " + String(diskMap.count))
 
+// save to file
+do {
+    var builder = ""
+    
+        diskMap.forEach( { cell in
+            if(cell == -1) {
+                builder += "."
+            } else {
+                builder += String(cell)
+            }
+        })
+    try builder.write(toFile: outputURL.path, atomically: true, encoding: .ascii)
+} catch let error {
+    // handle error
+    print("Error on writing strings to file: \(error)")
+}
+
 // task 1 - reshuffle
 /*
 var firstSpace = diskMap.firstIndex(of: -1)!
@@ -39,13 +63,12 @@ while(lastBlock > firstSpace) {
 */
 // task 2
 repeat {
-    var lastUsedBlockIndex = diskMap.lastIndex(where: {x in x == currentBlock})!
-    var firstUsedBlockIndex = diskMap.firstIndex(where: {x in x == currentBlock})!
-    var numberOfBlocks: Int = lastUsedBlockIndex - firstUsedBlockIndex
+    let lastUsedBlockIndex = diskMap.lastIndex(where: {x in x == currentBlock})!
+    let firstUsedBlockIndex = diskMap.firstIndex(where: {x in x == currentBlock})!
+    let numberOfBlocks: Int = lastUsedBlockIndex - firstUsedBlockIndex
     
     // look for an empty space of length 'numberOfBlocks'
     var firstEmptyBlockIndex: Int = diskMap.firstIndex(where: {x in x == -1}) ?? -1;
-    
     while(firstEmptyBlockIndex != -1)
     {
         // find the length of the space
@@ -53,7 +76,8 @@ repeat {
         while(diskMap[lastEmptyBlockIndex] == -1) { lastEmptyBlockIndex += 1 }
         lastEmptyBlockIndex -= 1
         
-        if(lastEmptyBlockIndex-firstEmptyBlockIndex > numberOfBlocks) {
+        if(lastEmptyBlockIndex-firstEmptyBlockIndex > numberOfBlocks)
+        {
             // move it
             var teIndex = firstEmptyBlockIndex
             var tbIndex = firstUsedBlockIndex
@@ -79,6 +103,22 @@ repeat {
     currentBlock -= 1
 } while (currentBlock >= 0)
 
+// dump the file
+do {
+    var builder = ""
+    
+    diskMap.forEach( { cell in
+        if(cell == -1) {
+            builder += "."
+        } else {
+            builder += String(cell)
+        }
+    })
+    try builder.write(toFile: finalOutputURL.path, atomically: true, encoding: .ascii)
+} catch let error {
+    // handle error
+    print("Error on writing strings to file: \(error)")
+}
 // calculate sum
 var sum: Int = 0
 for (index, value) in diskMap.enumerated() {
