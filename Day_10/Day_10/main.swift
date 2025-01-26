@@ -9,12 +9,14 @@ struct Position {
 func calculateNumberOfTrails(_ nextValue: Int,_ positionLine: Int, _ positionColumn: Int) throws -> Int {
     // we are at the end for trail
     if nextValue == 10 {
-        // we have to collect the position and eliminate duplicates
+        /*
+        // For Task 1 we have to collect the position and eliminate duplicates
          if (positions.contains{ X in
              return X.line == positionLine && X.column == positionColumn }) {
                  return 0
         }
         positions.append( Position(line: positionLine, column:  positionColumn ))
+        */
         return 1
     }
     
