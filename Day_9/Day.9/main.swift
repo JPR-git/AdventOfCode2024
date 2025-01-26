@@ -11,7 +11,7 @@ let finalOutputURL = FileManager.default.homeDirectoryForCurrentUser.appending(
 
 var diskMap: [Int] = []
 let fileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
-    path: "source/AdventOfCode2024/Day_9/AoC2024_sample.9")
+    path: "source/AdventOfCode2024/Day_9/AoC2024_input.9")
 let input: String = try String(contentsOf: fileURL, encoding: .ascii).trimmingCharacters(in: .whitespacesAndNewlines)
 print("Line length: " + String(input.count))
 
@@ -65,18 +65,20 @@ while(lastBlock > firstSpace) {
 repeat {
     let lastUsedBlockIndex = diskMap.lastIndex(where: {x in x == currentBlock})!
     let firstUsedBlockIndex = diskMap.firstIndex(where: {x in x == currentBlock})!
-    let numberOfBlocks: Int = lastUsedBlockIndex - firstUsedBlockIndex
+    let numberOfBlocks: Int = lastUsedBlockIndex - firstUsedBlockIndex + 1
     
     // look for an empty space of length 'numberOfBlocks'
     var firstEmptyBlockIndex: Int = diskMap.firstIndex(where: {x in x == -1}) ?? -1;
-    while(firstEmptyBlockIndex != -1)
+    while(firstEmptyBlockIndex != -1 && diskMap.count > firstEmptyBlockIndex)
     {
         // find the length of the space
         var lastEmptyBlockIndex = firstEmptyBlockIndex
-        while(diskMap[lastEmptyBlockIndex] == -1) { lastEmptyBlockIndex += 1 }
+        while( diskMap.count > lastEmptyBlockIndex && diskMap[lastEmptyBlockIndex] == -1) { lastEmptyBlockIndex += 1 }
         lastEmptyBlockIndex -= 1
         
-        if(lastEmptyBlockIndex-firstEmptyBlockIndex > numberOfBlocks)
+        if(lastEmptyBlockIndex-firstEmptyBlockIndex+1 >= numberOfBlocks &&
+           firstEmptyBlockIndex < firstUsedBlockIndex
+        )
         {
             // move it
             var teIndex = firstEmptyBlockIndex
