@@ -1,7 +1,6 @@
 import Foundation
 import System
 
-
 func ProcessStone(_ index: Int) -> Int {
     if(index >= numberLine.count) { return 0 }
     
