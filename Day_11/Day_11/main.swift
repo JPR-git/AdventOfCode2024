@@ -43,7 +43,7 @@ input.split(separator: " ").forEach { numberStr in
     numberLine.append(Int(numberStr)!)
 }
 
-for _ in 0..<25 {
+for i in 0..<75 {
     //_ = ProcessStone(0)
     var index: Int = 0
     
@@ -74,6 +74,7 @@ for _ in 0..<25 {
         
         index += 1
     } while (index < numberLine.count)
+    print("\(i) : \(numberLine.count)")
 }
 
 // over
