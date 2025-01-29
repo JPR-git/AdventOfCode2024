@@ -1,6 +1,6 @@
 import Foundation
 import System
-
+/*
 func ProcessStone(_ index: Int) -> Int {
     if(index >= numberLine.count) { return 0 }
     
@@ -30,11 +30,13 @@ func ProcessStone(_ index: Int) -> Int {
     
     return ProcessStone(index+1)
 }
+*/
 
 let inputFileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
     path: "source/AdventOfCode2024/Day_11/AoC2024_input.11")
 
-var numberLine: [Int] = []
+var numberLine: LinkedList = LinkedList()
+
 // MAIN
 let input: String = try String(contentsOf: inputFileURL, encoding: .ascii).trimmingCharacters(in: .whitespacesAndNewlines)
     
@@ -42,39 +44,56 @@ input.split(separator: " ").forEach { numberStr in
     numberLine.append(Int(numberStr)!)
 }
 
-for i in 0..<75 {
+for iterationStep in 0..<75 {
     //_ = ProcessStone(0)
-    var index: Int = 0
+    // iterate one by one
+
+    var node : LinkedNode? = numberLine.head
     
-    repeat {
-        let val = numberLine[index]
+    var index: Int = 0
+    while node != nil {
         
         // 0 -> 1
-        if val == 0{
-            numberLine[index] = 1
+        if node!.value == 0{
+            node!.value = 1
         }
         // even number of digits -> split into text halfs
-        else if (String(val).count % 2 == 0) {
-            let text = String(val)
+        else if (String(node!.value).count % 2 == 0) {
+            let text = String(node!.value)
             let indexOfHalfLeft = text.index(text.startIndex, offsetBy: (Int)(text.count-1)/2)
             let indexOfHalfRight = text.index(text.startIndex, offsetBy: text.count/2)
             
             let leftHalf: String = String(text[...indexOfHalfLeft])
             let rightHalf: String = String(text[indexOfHalfRight...])
-            numberLine[index] = Int(leftHalf)!
-            let secondIndex = index + 1
-            numberLine.insert(Int(rightHalf)!, at: secondIndex)
+            
+            // replace the current node value
+            node!.value = Int(leftHalf)!
+            
+            // inject the next node with rightHalf value
+            let newNode = LinkedNode(value: Int(rightHalf)!)
+            if(node!.next == nil) {
+                node!.next = newNode
+                node = newNode
+            } else {
+                let nextNode = node!.next
+                
+                newNode.next = nextNode
+                node!.next = newNode
+                
+                node = newNode
+            }
             index += 1
         }
         // anything else -> *2024
         else {
-            numberLine[index] = 2024 * val
+            node!.value = 2024 * node!.value
         }
-        
+        // move to the next node
+        node = node!.next
         index += 1
-    } while (index < numberLine.count)
-    print("\(i) : \(numberLine.count)")
+    }
+    print("\(iterationStep) : \(index)")
 }
 
 // over
-print(numberLine.count)
+print(numberLine.count())
