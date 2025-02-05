@@ -33,6 +33,23 @@ class CalculatingThread: Thread {
         waiter.leave()
     }
     
+    // 35 iterations
+    func substituteAtIteration40(_ value: Int) -> Int {
+        return switch value {
+        case 0: 1258125
+        case 1: 1916299
+        case 2: 1824910
+        case 3: 1821382
+        case 4: 1761823
+        case 5: 1565585
+        case 6: 1661899
+        case 7: 1637097
+        case 8: 1583522
+        case 9: 1685448
+        case 2024: 2886408
+        default: 0
+        }
+    }
     
     func Iterate(_ iterationStep: Int, _ list: LinkedList) -> Int {
         var sum : Int = 0
@@ -64,7 +81,6 @@ class CalculatingThread: Thread {
         }
         
         var node : LinkedNode? = list.head
-        
         while node != nil {
             node = ProcessNode(node!)
         }

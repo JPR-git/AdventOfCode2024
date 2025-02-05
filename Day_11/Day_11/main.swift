@@ -4,7 +4,7 @@ import System
 let inputFileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
     path: "source/AdventOfCode2024/Day_11/AoC2024_input.11")
 
-let MaxIterationCount: Int = 75
+let MaxIterationCount: Int = 25
 let MaxChunkSize: Int = 5000000
 
 // MAIN
@@ -14,26 +14,31 @@ input.split(separator: " ").forEach { numberStr in
     numberLine.append(Int(numberStr)!)
 }
 
-
 var threadList: [CalculatingThread] = []
-for(numberIndex, number) in numberLine.enumerated() {
+
+let clock = ContinuousClock()
+let result = clock.measure {
+    for(numberIndex, number) in numberLine.enumerated() {
     // each number in its own thread
-    var calculatingThread = CalculatingThread(numberIndex, number, MaxIterationCount)
+    let calculatingThread = CalculatingThread(numberIndex, number, MaxIterationCount)
     calculatingThread.start()
     threadList.append(calculatingThread)
     //calculatingThread.join()
 }
 
 var someNotFinished: Bool = true
-while someNotFinished {
-    someNotFinished = false
-    for thread in threadList {
-        if !thread.isFinished {
-            someNotFinished = true
+    while someNotFinished {
+        someNotFinished = false
+        for thread in threadList {
+            if !thread.isFinished {
+                someNotFinished = true
+            }
         }
+        //print("sleep")
+        if someNotFinished { usleep(10) }
     }
-    usleep(120)
 }
+print(result)
 print("==============================")
 var sum: Int = 0
 for thread in threadList {
