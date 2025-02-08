@@ -54,9 +54,9 @@ class CalculatingThread: Thread {
     func Iterate(_ iterationStep: Int, _ list: LinkedList) -> Int {
         var sum : Int = 0
         
-        let count = list.count()
-        //print("\(iterationStep) : \(count)")
         if(iterationStep == MaxIterationCount) {
+            let count = list.count()
+            print("\(self.index) : \(iterationStep) : \(count)")
             return count
         }
         
@@ -80,9 +80,16 @@ class CalculatingThread: Thread {
             sum += Iterate(iterationStep + 1, splittedList)
         }
         
+        var index:Int = 0
         var node : LinkedNode? = list.head
+        
         while node != nil {
+            // process in chunks to save memory
+            if index > MaxChunkSize {
+                
+            }
             node = ProcessNode(node!)
+            index += 1
         }
         
         return sum + Iterate(iterationStep + 1, list)

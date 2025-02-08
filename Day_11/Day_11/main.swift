@@ -34,7 +34,6 @@ var someNotFinished: Bool = true
                 someNotFinished = true
             }
         }
-        //print("sleep")
         if someNotFinished { usleep(10) }
     }
 }
