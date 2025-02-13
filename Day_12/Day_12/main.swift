@@ -18,21 +18,14 @@ for try await line in inputFileURL.lines {
 }
 print("Garden size: " + String(Garden.count) + " x " + String(Garden[0].count))
 
-// eliminate single X
-var update = HandleRegion1X(&Garden)
-print("Single X border count:\t\(update)")
-totalPrice += update
+var garden = Matrix<Character>.init(data: Garden)
 
-//                      X
-// eliminate double XX  X
-update = HandleRegion2X(&Garden)
-print("Double X border count:\t\(update)")
-totalPrice += update
+var shape: Shape = Shape.Detect(garden, 0, 0)
 
-//                      X   X
-// elminate tripple XXX XX  X
-//                          X
+// calculate price
+totalPrice += shape.calculatePrice()
 
+// clean shape in Garden
 
 
 print("Garden total price:\t\(totalPrice)")
