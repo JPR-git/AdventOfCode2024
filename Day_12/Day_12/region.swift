@@ -1,4 +1,6 @@
 struct Shape {
+    public static let ClearSymbol: Character = Character(" ")
+    
     var blocks: [(Int,Int)]
     let symbol: Character
     

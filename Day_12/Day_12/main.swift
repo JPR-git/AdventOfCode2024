@@ -3,7 +3,7 @@ import System
 
 var totalPrice: Int = 0
 let inputFileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
-    path: "source/AdventOfCode2024/Day_12/AoC2024_sample.12")
+    path: "source/AdventOfCode2024/Day_12/AoC2024_input.12")
 
 // MAIN
 var Garden: [[Character]] = []
@@ -20,12 +20,20 @@ print("Garden size: " + String(Garden.count) + " x " + String(Garden[0].count))
 
 var garden = Matrix<Character>.init(data: Garden)
 
-var shape: Shape = Shape.Detect(garden, 0, 0)
+for r in (0...(garden.rows - 1)) {
+    for c in (0...(garden.columns - 1)) {
+        if garden[r,c] == Shape.ClearSymbol {
+            continue
+        }
+        
+        let shape: Shape = Shape.Detect(garden, r, c)
 
-// calculate price
-totalPrice += shape.calculatePrice()
+        // calculate price
+        totalPrice += shape.calculatePrice()
 
-// clean shape in Garden
-
+        // clean shape in Garden
+        _ = garden.clear(Shape: shape, ClearSymbol: Shape.ClearSymbol)
+    }
+}
 
 print("Garden total price:\t\(totalPrice)")

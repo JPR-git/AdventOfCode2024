@@ -16,6 +16,13 @@ struct Matrix<T> {
         return row >= 0 && row < rows && column >= 0 && column < columns
     }
     
+    mutating func clear(Shape shape: Shape, ClearSymbol clearSymbol: T) -> Bool {
+        for(_,b) in shape.blocks.enumerated(){
+            self[b.0, b.1] = clearSymbol
+        }
+        return true
+    }
+    
     subscript(row: Int, column: Int) -> T? {
         get {
             if !indexIsValid(row: row, column: column) {return nil}
