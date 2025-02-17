@@ -17,4 +17,4 @@ for try await line in inputFileURL.lines {
     }
 }
 
-
+print(machines.count)
