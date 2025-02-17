@@ -3,7 +3,7 @@ import System
 
 var totalPrice: Int = 0
 let inputFileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
-    path: "source/AdventOfCode2024/Day_12/AoC2024_input.12")
+    path: "source/AdventOfCode2024/Day_12/AoC2024_sample.12")
 
 // MAIN
 var Garden: [[Character]] = []
@@ -29,7 +29,7 @@ for r in (0...(garden.rows - 1)) {
         let shape: Shape = Shape.Detect(garden, r, c)
 
         // calculate price
-        totalPrice += shape.calculatePrice()
+        totalPrice += shape.calculatePriceAsTask2()
 
         // clean shape in Garden
         _ = garden.clear(Shape: shape, ClearSymbol: Shape.ClearSymbol)

@@ -20,6 +20,39 @@ struct Shape {
         return true
     }
     
+    func calculatePriceAsTask2() -> Int {
+        var price: Int = 0
+        // WEST
+        let westFacingBlocks = self.blocks.filter({ X in
+            !(blocks.contains(where: { $0 == (X.0,(X.1 - 1)) }))
+        })
+        var groups = Dictionary(grouping: westFacingBlocks, by:  {$0.1})
+        price += blocks.count * groups.count
+        
+        // EAST
+        let eastFacingBlocks = self.blocks.filter({ X in
+            !(blocks.contains(where: { $0 == (X.0,(X.1 + 1)) }))
+        })
+        groups = Dictionary(grouping: eastFacingBlocks, by:  {$0.1})
+        price += blocks.count * groups.count
+        
+        // NORT
+        let northFacingBlocks = self.blocks.filter({ X in
+            !(blocks.contains(where: { $0 == ((X.0 - 1), X.1) }))
+        })
+        groups = Dictionary(grouping: northFacingBlocks, by:  {$0.0})
+        price += blocks.count * groups.count
+        
+        // SOUTH
+        let southFacingBlocks = self.blocks.filter({ X in
+            !(blocks.contains(where: { $0 == ((X.0 + 1), X.1) }))
+        })
+        groups = Dictionary(grouping: southFacingBlocks, by:  {$0.0})
+        price += blocks.count * groups.count
+        
+        return price
+    }
+    
     func calculatePrice() -> Int {
         var price: Int = 0
         for (_, b) in blocks.enumerated() {
