@@ -27,28 +27,86 @@ struct Shape {
             !(blocks.contains(where: { $0 == (X.0,(X.1 - 1)) }))
         })
         var groups = Dictionary(grouping: westFacingBlocks, by:  {$0.1})
-        price += blocks.count * groups.count
+        for(i,z) in groups {
+            let sorted = z.sorted {$0.0 < $1.0}
+            var row = sorted[0].0
+            for (k,(y,b)) in sorted.enumerated() {
+                if k == 0 { row += 1; continue }
+                
+                if row != y {
+                    price += blocks.count * 1
+                    row = y + 1
+                } else {
+                    row += 1
+                }
+            }
+            price += blocks.count * 1
+        }
+        
+        
         
         // EAST
         let eastFacingBlocks = self.blocks.filter({ X in
             !(blocks.contains(where: { $0 == (X.0,(X.1 + 1)) }))
         })
         groups = Dictionary(grouping: eastFacingBlocks, by:  {$0.1})
-        price += blocks.count * groups.count
+        for(i,z) in groups {
+            let sorted = z.sorted {$0.0 < $1.0}
+            var row = sorted[0].0
+            for (k,(y,b)) in sorted.enumerated() {
+                if k == 0 { row += 1; continue }
+                
+                if row != y {
+                    price += blocks.count * 1
+                    row = y + 1
+                } else {
+                    row += 1
+                }
+            }
+            price += blocks.count * 1
+        }
         
         // NORT
         let northFacingBlocks = self.blocks.filter({ X in
             !(blocks.contains(where: { $0 == ((X.0 - 1), X.1) }))
         })
         groups = Dictionary(grouping: northFacingBlocks, by:  {$0.0})
-        price += blocks.count * groups.count
+        for(i,z) in groups {
+            let sorted = z.sorted {$0.1 < $1.1}
+            var column = sorted[0].1
+            for (k,(y,b)) in sorted.enumerated() {
+                if k == 0 { column += 1; continue }
+                
+                if column != b {
+                    price += blocks.count * 1
+                    column = b + 1
+                } else {
+                    column += 1
+                }
+            }
+            price += blocks.count * 1
+        }
         
         // SOUTH
         let southFacingBlocks = self.blocks.filter({ X in
             !(blocks.contains(where: { $0 == ((X.0 + 1), X.1) }))
         })
         groups = Dictionary(grouping: southFacingBlocks, by:  {$0.0})
-        price += blocks.count * groups.count
+        for(i,z) in groups {
+            let sorted = z.sorted {$0.1 < $1.1}
+            var column = sorted[0].1
+            for (k,(y,b)) in sorted.enumerated() {
+                if k == 0 { column += 1; continue }
+                
+                if column != b {
+                    price += blocks.count * 1
+                    column = b + 1
+                } else {
+                    column += 1
+                }
+            }
+            price += blocks.count * 1
+        }
         
         return price
     }

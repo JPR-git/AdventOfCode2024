@@ -3,7 +3,7 @@ import System
 
 var totalPrice: Int = 0
 let inputFileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
-    path: "source/AdventOfCode2024/Day_12/AoC2024_sample.12")
+    path: "source/AdventOfCode2024/Day_12/AoC2024_input.12")
 
 // MAIN
 var Garden: [[Character]] = []
@@ -36,4 +36,5 @@ for r in (0...(garden.rows - 1)) {
     }
 }
 
+// large = 1206
 print("Garden total price:\t\(totalPrice)")
