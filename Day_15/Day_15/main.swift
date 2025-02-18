@@ -1,11 +1,8 @@
-//
-//  main.swift
-//  Day_15
-//
-//  Created by Jan on 18.02.2025.
-//
-
 import Foundation
+import System
 
-print("Hello, World!")
+let inputFileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
+    path: "source/AdventOfCode2024/Day_15/AoC2024_sample.15")
+
+// MAIN
 

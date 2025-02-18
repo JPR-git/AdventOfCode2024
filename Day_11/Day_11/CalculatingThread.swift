@@ -46,17 +46,42 @@ class CalculatingThread: Thread {
         case 7: 1637097
         case 8: 1583522
         case 9: 1685448
+        case 20: 2028032
+        case 24: 2386184
+        case 40: 1998086
+        case 48: 2232336
+        case 80: 0
+        case 96: 0
         case 2024: 2886408
+        case 2048: 0
+        case 2608: 0
+        case 3277: 0
         default: 0
         }
     }
     
     func Iterate(_ iterationStep: Int, _ list: LinkedList) -> Int {
         var sum : Int = 0
+        let count = list.count()
         
-        if(iterationStep == MaxIterationCount) {
-            let count = list.count()
+        if(iterationStep == maxIteration) {    
             print("\(self.index) : \(iterationStep) : \(count)")
+        /*
+            // substitution from level 40 to 75 via substituteAtIteration40
+            var localCount: Int = 0
+            var node : LinkedNode? = list.head
+            while node != nil {
+                let t: Int = substituteAtIteration40(node!.value)
+                if t == 0 {
+                    print("Missing: \(node!.value)")
+                } else{
+                    localCount += t
+                }
+                node = node?.next
+            }
+            
+            return localCount
+         */
             return count
         }
         

@@ -2,10 +2,24 @@ import Foundation
 import System
 
 let inputFileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
-    path: "source/AdventOfCode2024/Day_11/AoC2024_input.11")
+    path: "source/AdventOfCode2024/Day_11/AoC2024_pattern.11")
 
-let MaxIterationCount: Int = 25
-let MaxChunkSize: Int = 5000000
+let MaxIterationCount: Int = 40
+let MaxChunkSize: Int = 11000000
+
+var ThreadList: [CalculatingThread] = []
+// Preparation
+
+var calculatedValues = [Int: Int]()
+for i in 0...50 {
+    let calculatingThread = CalculatingLevel35Thread(i, i)
+    calculatingThread.start()
+    //ThreadList.append(calculatingThread)
+    calculatingThread.join()
+    print("\(calculatingThread.index) : \(calculatingThread.result)")
+    calculatedValues[calculatingThread.index] = calculatingThread.result
+}
+
 
 // MAIN
 let input: String = try String(contentsOf: inputFileURL, encoding: .ascii).trimmingCharacters(in: .whitespacesAndNewlines)
@@ -14,22 +28,22 @@ input.split(separator: " ").forEach { numberStr in
     numberLine.append(Int(numberStr)!)
 }
 
-var threadList: [CalculatingThread] = []
 
+ThreadList = []
 let clock = ContinuousClock()
 let result = clock.measure {
     for(numberIndex, number) in numberLine.enumerated() {
     // each number in its own thread
     let calculatingThread = CalculatingThread(numberIndex, number, MaxIterationCount)
     calculatingThread.start()
-    threadList.append(calculatingThread)
+    ThreadList.append(calculatingThread)
     //calculatingThread.join()
 }
 
-var someNotFinished: Bool = true
+var someNotFinished = true
     while someNotFinished {
         someNotFinished = false
-        for thread in threadList {
+        for thread in ThreadList {
             if !thread.isFinished {
                 someNotFinished = true
             }
@@ -40,7 +54,7 @@ var someNotFinished: Bool = true
 print(result)
 print("==============================")
 var sum: Int = 0
-for thread in threadList {
+for thread in ThreadList {
     sum += thread.result
     print("\(thread.index) : \(thread.result)")
 }
