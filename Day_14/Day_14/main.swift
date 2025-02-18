@@ -20,10 +20,12 @@ for try await line in inputFileURL.lines {
 }
 print("Robots: \(robots.count)")
 
-for _ in 0..<100 {
+for index in 0..<100 {
     for robot in robots {
         robot.move(wide, tall)
     }
+    
+    DumpToFile(index,wide, tall, robots)
 }
 
 var quadrant1: Int = 0
@@ -44,3 +46,18 @@ for robot in robots {
 print("\(quadrant1)\t\(quadrant2)\n\(quadrant3)\t\(quadrant4)\n")
 
 print("Safety: \(quadrant1*quadrant2*quadrant3*quadrant4)")
+
+func DumpToFile(_ index: Int, _ wide: Int, _ tall: Int, _ robots: [Robot] ) {
+    var matrix: Matrix = Matrix(rows: tall, columns: wide, defaultValue: ".")
+    
+    let outFileURL = FileManager.default.homeDirectoryForCurrentUser.appending(
+        path: "source/AdventOfCode2024/Day_14/out/\(index).txt")
+    
+    do {
+        try  matrix.ToString(robots,"R").write(to: outFileURL, atomically: true, encoding: String.Encoding.ascii)
+    } catch {
+        // failed to write file – bad permissions, bad filename, missing permissions, or more likely it can't be converted to the encoding
+        print("Failure to write file.")
+    }
+    
+}
