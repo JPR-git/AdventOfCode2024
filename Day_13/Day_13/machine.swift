@@ -45,7 +45,7 @@ struct Machine {
                 // Prize
                 //Prize: X=1100, Y=4824
                 let matchPRIZE = line.firstMatch(of: parsedPrizeLine)
-                prize = (Int(matchPRIZE!.output.1) ?? -1,Int(matchPRIZE!.output.2) ?? -1)
+                prize = ((Int(matchPRIZE!.output.1) ?? -1) + 10000000000000,(Int(matchPRIZE!.output.2) ?? -1) + 10000000000000)
             }
         }
         
