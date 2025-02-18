@@ -29,9 +29,8 @@ struct Matrix {
     
     public mutating func ToString(_ robots: [Robot], _ robotValue: Character) -> String {
         for robot in robots {
-            grid[robot.Position.0 * columns + robot.Position.1] = robotValue
+            grid[robot.Position.1 * columns + robot.Position.0] = robotValue
         }
-        
         
         var result: String = ""
         
