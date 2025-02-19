@@ -11,11 +11,11 @@ func blink(_ stone: Int, _ iteration: Int) -> Int {
     if MemoizationCache.keys.contains(IterationCoordinates(stone, iteration)) {
         return MemoizationCache[IterationCoordinates(stone, iteration)]!
     }
-    
+    // end of recursion
     if iteration == 0 {
         return 1
     }
-    
+    // 0 -> 1
     if 0 == stone {
         MemoizationCache[IterationCoordinates(stone, iteration)] = blink(1, iteration - 1)
     } else if (String(stone).count % 2 == 0) {
@@ -29,6 +29,7 @@ func blink(_ stone: Int, _ iteration: Int) -> Int {
         
         MemoizationCache[IterationCoordinates(stone, iteration)] = blink(leftHalf, iteration - 1) + blink(rightHalf, iteration - 1)
     } else {
+        // anything else -> *2024
         MemoizationCache[IterationCoordinates(stone, iteration)] = blink(2024 * stone, iteration - 1)
     }
     
@@ -44,11 +45,15 @@ input.split(separator: " ").forEach { numberStr in
 
 
 var sum: Int = 0
-for(numberIndex, number) in numberLine.enumerated() {
-    
-    let result: Int = blink(number, MaxIterationCount)
-    print("[\(numberIndex)] \(number): \(result)")
-    sum += result
-}
 
-print(sum)
+let clock = ContinuousClock()
+let time = clock.measure {
+    for(_, number) in numberLine.enumerated() {
+        let result: Int = blink(number, MaxIterationCount)
+        sum += result
+    }
+}
+print(time)
+print("==============================")
+print("Result: \(sum)")
+print("Cache items: \(MemoizationCache.count)")
