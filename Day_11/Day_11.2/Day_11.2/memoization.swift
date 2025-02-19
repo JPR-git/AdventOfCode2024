@@ -12,8 +12,8 @@ extension IterationCoordinates: Hashable {
     static func == (lhs: IterationCoordinates, rhs: IterationCoordinates) -> Bool {
         return lhs.startValue == rhs.startValue && lhs.iteration == rhs.iteration
     }
-
-
+    
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(startValue)
         hasher.combine(iteration)

@@ -15,8 +15,10 @@ func blink(_ stone: Int, _ iteration: Int) -> Int {
     if iteration == 0 {
         return 1
     }
-    // 0 -> 1
+    
+    // evaluation
     if 0 == stone {
+        // 0 -> 1
         MemoizationCache[IterationCoordinates(stone, iteration)] = blink(1, iteration - 1)
     } else if (String(stone).count % 2 == 0) {
         // even number of digits -> split into text halfs
@@ -43,7 +45,6 @@ input.split(separator: " ").forEach { numberStr in
     numberLine.append(Int(numberStr)!)
 }
 
-
 var sum: Int = 0
 
 let clock = ContinuousClock()
@@ -54,6 +55,7 @@ let time = clock.measure {
     }
 }
 print(time)
+
 print("==============================")
 print("Result: \(sum)")
 print("Cache items: \(MemoizationCache.count)")
