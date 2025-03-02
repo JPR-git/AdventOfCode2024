@@ -273,7 +273,7 @@
 				3D3633DC2D67473E003F880B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		3D3633DD2D67473E003F880B /* Build configuration list for PBXNativeTarget "Day_16.1" */ = {
 			isa = XCConfigurationList;
@@ -282,7 +282,7 @@
 				3D3633DF2D67473E003F880B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

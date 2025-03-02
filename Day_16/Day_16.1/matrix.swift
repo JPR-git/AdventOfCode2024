@@ -1,0 +1,70 @@
+struct Matrix {
+    let rows: Int, columns: Int
+    
+    var grid: [Character]
+    
+    init( data: [[Character]]) {
+        self.rows = data.count
+        self.columns = data[0].count
+        grid = data.flatMap{$0}
+    }
+}
+
+extension Matrix {
+   
+    
+    
+    
+    func indexIsValid(row: Int, column: Int) -> Bool {
+        return row >= 0 && row < rows && column >= 0 && column < columns
+    }
+    
+    subscript(row: Int, column: Int) -> Character? {
+        get {
+            if !indexIsValid(row: row, column: column) {return nil}
+            return grid[(row * columns) + column]
+        }
+        set {
+            assert(indexIsValid(row: row, column: column), "Index out of range")
+            grid[(row * columns) + column] = newValue!
+        }
+    }
+    
+    func locateFirst(_ character: Character) -> (Int, Int)? {
+        guard let index = grid.firstIndex(of: character)  else {
+            return nil
+        }
+        
+        let row = Int(index / columns)
+        return (row, index - (row * columns))
+    }
+    
+    func locate(_ character: Character) -> [(Int, Int)]? {
+        guard grid.firstIndex(of: character) != nil  else {
+            return nil
+        }
+        
+        var result:[(Int, Int)] = []
+        
+        for el in self.grid.indices(of: character).ranges.enumerated() {
+            for i in el.element{
+                let row = Int(i / columns)
+                result.append((row, i - (row * columns)))
+            }
+        }
+        
+        return result
+    }
+    
+    public  func ToString() -> String {
+        var result: String = ""
+        
+        for row in 0..<rows {
+            for column in 0..<columns {
+                result += String(self[row,column]!)
+            }
+            result += "\n"
+        }
+        return result
+    }
+}
